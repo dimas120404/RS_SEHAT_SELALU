@@ -1,0 +1,632 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <title>Login RS Sehat Selalu</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'fade-in': 'fadeIn 0.8s ease-out',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'shimmer': 'shimmer 2s linear infinite',
+                        'heartbeat': 'heartbeat 1.5s ease-in-out infinite',
+                        'wave': 'wave 2s ease-in-out infinite',
+                        'rotate-slow': 'rotate 20s linear infinite',
+                        'scale-pulse': 'scalePulse 2s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 20px rgba(79, 172, 254, 0.5)' },
+                            '100%': { boxShadow: '0 0 30px rgba(79, 172, 254, 0.8), 0 0 40px rgba(79, 172, 254, 0.3)' },
+                        },
+                        shimmer: {
+                            '0%': { backgroundPosition: '-200% 0' },
+                            '100%': { backgroundPosition: '200% 0' },
+                        },
+                        heartbeat: {
+                            '0%, 100%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(1.05)' },
+                        },
+                        wave: {
+                            '0%, 100%': { transform: 'rotate(0deg)' },
+                            '25%': { transform: 'rotate(5deg)' },
+                            '75%': { transform: 'rotate(-5deg)' },
+                        },
+                        scalePulse: {
+                            '0%, 100%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(1.02)' },
+                        }
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+                        'shimmer': 'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+        }
+
+        /* Custom focus styles */
+        .custom-focus:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.3);
+        }
+
+        /* Glass morphism effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Enhanced button hover effect */
+        .btn-hover-effect {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-hover-effect::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-hover-effect:hover::before {
+            left: 100%;
+        }
+
+        /* Floating animation for particles */
+        .floating-particle {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .floating-particle:nth-child(2n) {
+            animation-delay: -2s;
+        }
+
+        .floating-particle:nth-child(3n) {
+            animation-delay: -1s;
+        }
+
+        /* Medical cross animation */
+        .medical-cross {
+            animation: heartbeat 2s ease-in-out infinite;
+        }
+
+        /* Pulse ring effect */
+        .pulse-ring {
+            position: relative;
+        }
+
+        .pulse-ring::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            border: 2px solid #4facfe;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse 2s infinite;
+        }
+
+        /* Gradient text effect */
+        .gradient-text {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Shimmer loading effect */
+        .shimmer-bg {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-500 via-purple-600 to-cyan-500 min-h-screen font-sans overflow-x-hidden">
+    <!-- 3D Particles Container -->
+    <div id="particles-container" class="fixed inset-0 z-0"></div>
+
+    <!-- Floating decorative elements -->
+    <div class="fixed inset-0 pointer-events-none z-10">
+        <div class="absolute top-20 left-10 w-4 h-4 bg-blue-400 rounded-full opacity-60 floating-particle"></div>
+        <div class="absolute top-40 right-20 w-6 h-6 bg-cyan-400 rounded-full opacity-40 floating-particle"></div>
+        <div class="absolute bottom-32 left-20 w-3 h-3 bg-purple-400 rounded-full opacity-70 floating-particle"></div>
+        <div class="absolute bottom-20 right-10 w-5 h-5 bg-blue-300 rounded-full opacity-50 floating-particle"></div>
+        <div class="absolute top-1/2 left-5 w-2 h-2 bg-cyan-300 rounded-full opacity-80 floating-particle"></div>
+        <div class="absolute top-1/3 right-5 w-4 h-4 bg-purple-300 rounded-full opacity-60 floating-particle"></div>
+    </div>
+
+    <div class="min-h-screen flex items-center justify-center p-4 relative z-20">
+        <div class="w-full max-w-6xl">
+            <div class="glass rounded-3xl shadow-2xl overflow-hidden transform hover:scale-105 transition-all duration-500">
+                <div class="flex flex-col lg:flex-row min-h-[600px]">
+                    <!-- Image Section -->
+                    <div class="lg:w-1/2 bg-gradient-to-br from-blue-400 to-cyan-500 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-black opacity-20"></div>
+                        <div class="absolute inset-0" style="background-image: url('dokter.png'); background-size: contain; background-repeat: no-repeat; background-position: center; opacity: 0.8;"></div>
+                        
+                        <!-- Animated medical symbols -->
+                        <div class="absolute top-10 left-10 text-white text-4xl medical-cross animate-pulse-slow">
+                            <i class="bi bi-heart-pulse"></i>
+                        </div>
+                        <div class="absolute top-20 right-10 text-white text-3xl animate-bounce-slow">
+                            <i class="bi bi-droplet"></i>
+                        </div>
+                        <div class="absolute bottom-20 left-10 text-white text-2xl animate-wave">
+                            <i class="bi bi-activity"></i>
+                        </div>
+                        
+                        <div class="relative z-10 text-center text-white p-12 h-full flex flex-col justify-center items-center">
+                            <h3 class="text-5xl font-bold mb-4 animate-fade-in drop-shadow-lg">
+                                RS Sehat Selalu
+                            </h3>
+                            <p class="text-xl opacity-90 animate-slide-up drop-shadow-md">
+                                Melayani dengan Sepenuh Hati
+                            </p>
+                            
+                            <!-- Animated health indicators -->
+                            <div class="mt-8 flex space-x-4">
+                                <div class="pulse-ring w-3 h-3 bg-green-400 rounded-full"></div>
+                                <div class="pulse-ring w-3 h-3 bg-blue-400 rounded-full" style="animation-delay: 0.5s;"></div>
+                                <div class="pulse-ring w-3 h-3 bg-cyan-400 rounded-full" style="animation-delay: 1s;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Form Section -->
+                    <div class="lg:w-1/2 p-12 lg:p-16 bg-white/95 backdrop-blur-xl">
+                        <div class="text-center mb-12 animate-fade-in">
+                            <h2 class="text-4xl font-bold text-gray-800 mb-3 gradient-text">
+                                Selamat Datang
+                            </h2>
+                            <p class="text-lg text-gray-600 animate-slide-up">
+                                Silakan login untuk melanjutkan
+                            </p>
+                        </div>
+                        
+                        <form action="proses_login.php" method="POST" id="loginForm" novalidate class="space-y-6">
+                            <div class="group">
+                                <div class="relative">
+                                    <input 
+                                        type="text" 
+                                        class="w-full px-6 py-4 text-lg border-2 border-gray-200 rounded-xl focus:border-blue-400 focus:ring-4 focus:ring-blue-100 transition-all duration-300 bg-white/80 backdrop-blur-sm custom-focus peer" 
+                                        id="username" 
+                                        name="username" 
+                                        placeholder=" " 
+                                        required 
+                                        minlength="3" 
+                                        maxlength="50"
+                                    >
+                                    <label 
+                                        for="username" 
+                                        class="absolute left-6 top-4 text-gray-500 transition-all duration-300 peer-focus:text-blue-500 peer-focus:-translate-y-6 peer-focus:text-sm peer-[:not(:placeholder-shown)]:-translate-y-6 peer-[:not(:placeholder-shown)]:text-sm"
+                                    >
+                                        <i class="bi bi-person mr-2"></i>Username
+                                    </label>
+                                </div>
+                                <div class="hidden peer-invalid:block text-red-500 text-sm mt-2 animate-fade-in">
+                                    Username harus diisi (minimal 3 karakter)
+                                </div>
+                            </div>
+                            
+                            <div class="group">
+                                <div class="relative">
+                                    <input 
+                                        type="password" 
+                                        class="w-full px-6 py-4 text-lg border-2 border-gray-200 rounded-xl focus:border-blue-400 focus:ring-4 focus:ring-blue-100 transition-all duration-300 bg-white/80 backdrop-blur-sm custom-focus peer" 
+                                        id="password" 
+                                        name="password" 
+                                        placeholder=" " 
+                                        required 
+                                        minlength="6"
+                                    >
+                                    <label 
+                                        for="password" 
+                                        class="absolute left-6 top-4 text-gray-500 transition-all duration-300 peer-focus:text-blue-500 peer-focus:-translate-y-6 peer-focus:text-sm peer-[:not(:placeholder-shown)]:-translate-y-6 peer-[:not(:placeholder-shown)]:text-sm"
+                                    >
+                                        <i class="bi bi-lock mr-2"></i>Password
+                                    </label>
+                                </div>
+                                <div class="hidden peer-invalid:block text-red-500 text-sm mt-2 animate-fade-in">
+                                    Password harus diisi (minimal 6 karakter)
+                                </div>
+                            </div>
+                            
+                            <button 
+                                type="submit" 
+                                class="w-full bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-semibold py-4 px-8 rounded-xl text-lg transform hover:scale-105 hover:shadow-xl transition-all duration-300 btn-hover-effect animate-glow"
+                            >
+                                <i class="bi bi-box-arrow-in-right mr-2"></i>Login
+                            </button>
+                        </form>
+                        
+                        <div class="mt-12 space-y-4 animate-slide-up">
+                            <a 
+                                href="daftar.html" 
+                                class="block text-center text-blue-500 hover:text-blue-600 font-medium transition-all duration-300 hover:translate-x-2 group"
+                            >
+                                <i class="bi bi-person-plus mr-2 group-hover:animate-bounce"></i>
+                                Belum punya akun? Daftar di sini
+                            </a>
+                            <a 
+                                href="dokter_login.html" 
+                                class="block text-center text-cyan-500 hover:text-cyan-600 font-medium transition-all duration-300 hover:translate-x-2 group"
+                            >
+                                <i class="bi bi-heart-pulse mr-2 group-hover:animate-heartbeat"></i>
+                                Login Dokter
+                            </a>
+                        </div>
+                        
+                        <!-- Decorative elements -->
+                        <div class="mt-8 flex justify-center space-x-2">
+                            <div class="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+                            <div class="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" style="animation-delay: 0.2s;"></div>
+                            <div class="w-2 h-2 bg-purple-400 rounded-full animate-pulse" style="animation-delay: 0.4s;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Form Validation Script -->
+    <script>
+        // Form validation
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                var forms = document.getElementsByClassName('needs-validation');
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+
+        // Enhanced form validation for login
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            
+            if (username.length < 3) {
+                e.preventDefault();
+                document.getElementById('username').classList.add('border-red-500', 'focus:border-red-500');
+                return false;
+            }
+            
+            if (password.length < 6) {
+                e.preventDefault();
+                document.getElementById('password').classList.add('border-red-500', 'focus:border-red-500');
+                return false;
+            }
+        });
+
+        // Remove invalid class on input
+        document.getElementById('username').addEventListener('input', function() {
+            this.classList.remove('border-red-500', 'focus:border-red-500');
+        });
+        
+        document.getElementById('password').addEventListener('input', function() {
+            this.classList.remove('border-red-500', 'focus:border-red-500');
+        });
+    </script>
+
+    <!-- 3D Particles Script -->
+    <script>
+        // Three.js Scene Setup
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setClearColor(0x000000, 0);
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        document.getElementById('particles-container').appendChild(renderer.domElement);
+
+        // Health-themed particles
+        const particles = [];
+        const particleCount = 300;
+
+        // Create enhanced DNA helix particles with glow effect
+        for (let i = 0; i < particleCount; i++) {
+            const geometry = new THREE.SphereGeometry(0.08, 12, 12);
+            const material = new THREE.MeshBasicMaterial({ 
+                color: new THREE.Color().setHSL(Math.random() * 0.3 + 0.5, 0.9, 0.7),
+                transparent: true,
+                opacity: 0.8
+            });
+            const particle = new THREE.Mesh(geometry, material);
+            
+            // Enhanced DNA helix pattern with double helix
+            const angle = (i / particleCount) * Math.PI * 6;
+            const radius = 3 + Math.sin(i * 0.1) * 0.5;
+            const helixOffset = Math.sin(i * 0.5) * 0.3;
+            
+            particle.position.x = Math.cos(angle) * radius + helixOffset;
+            particle.position.y = (i / particleCount) * 12 - 6;
+            particle.position.z = Math.sin(angle) * radius + helixOffset;
+            
+            particle.userData = {
+                originalY: particle.position.y,
+                speed: Math.random() * 0.015 + 0.008,
+                rotationSpeed: Math.random() * 0.03 + 0.02,
+                pulseSpeed: Math.random() * 0.02 + 0.01,
+                pulsePhase: Math.random() * Math.PI * 2
+            };
+            
+            particles.push(particle);
+            scene.add(particle);
+        }
+
+        // Create floating medical molecules with different shapes
+        const moleculeCount = 80;
+        for (let i = 0; i < moleculeCount; i++) {
+            let geometry;
+            const shapeType = Math.floor(Math.random() * 4);
+            
+            switch(shapeType) {
+                case 0:
+                    geometry = new THREE.SphereGeometry(0.06, 8, 8);
+                    break;
+                case 1:
+                    geometry = new THREE.OctahedronGeometry(0.05);
+                    break;
+                case 2:
+                    geometry = new THREE.TetrahedronGeometry(0.06);
+                    break;
+                case 3:
+                    geometry = new THREE.BoxGeometry(0.08, 0.08, 0.08);
+                    break;
+            }
+            
+            const material = new THREE.MeshBasicMaterial({ 
+                color: new THREE.Color().setHSL(Math.random() * 0.2 + 0.6, 0.9, 0.8),
+                transparent: true,
+                opacity: 0.9
+            });
+            const molecule = new THREE.Mesh(geometry, material);
+            
+            molecule.position.x = (Math.random() - 0.5) * 25;
+            molecule.position.y = (Math.random() - 0.5) * 25;
+            molecule.position.z = (Math.random() - 0.5) * 25;
+            
+            molecule.userData = {
+                originalPosition: molecule.position.clone(),
+                speed: Math.random() * 0.008 + 0.004,
+                amplitude: Math.random() * 3 + 2,
+                rotationSpeed: Math.random() * 0.02 + 0.01,
+                type: shapeType
+            };
+            
+            particles.push(molecule);
+            scene.add(molecule);
+        }
+
+        // Create enhanced cell-like structures with nucleus
+        const cellCount = 30;
+        for (let i = 0; i < cellCount; i++) {
+            // Outer cell membrane
+            const cellGeometry = new THREE.SphereGeometry(0.4, 16, 16);
+            const cellMaterial = new THREE.MeshBasicMaterial({ 
+                color: new THREE.Color().setHSL(Math.random() * 0.1 + 0.4, 0.8, 0.9),
+                transparent: true,
+                opacity: 0.4,
+                wireframe: true
+            });
+            const cell = new THREE.Mesh(cellGeometry, cellMaterial);
+            
+            // Inner nucleus
+            const nucleusGeometry = new THREE.SphereGeometry(0.15, 12, 12);
+            const nucleusMaterial = new THREE.MeshBasicMaterial({ 
+                color: new THREE.Color().setHSL(Math.random() * 0.1 + 0.3, 0.9, 0.8),
+                transparent: true,
+                opacity: 0.8
+            });
+            const nucleus = new THREE.Mesh(nucleusGeometry, nucleusMaterial);
+            cell.add(nucleus);
+            
+            cell.position.x = (Math.random() - 0.5) * 18;
+            cell.position.y = (Math.random() - 0.5) * 18;
+            cell.position.z = (Math.random() - 0.5) * 18;
+            
+            cell.userData = {
+                originalPosition: cell.position.clone(),
+                speed: Math.random() * 0.006 + 0.003,
+                rotationSpeed: Math.random() * 0.015 + 0.008,
+                nucleus: nucleus
+            };
+            
+            particles.push(cell);
+            scene.add(cell);
+        }
+
+        // Create floating energy particles
+        const energyCount = 60;
+        for (let i = 0; i < energyCount; i++) {
+            const geometry = new THREE.SphereGeometry(0.03, 6, 6);
+            const material = new THREE.MeshBasicMaterial({ 
+                color: new THREE.Color().setHSL(Math.random() * 0.1 + 0.7, 1, 0.9),
+                transparent: true,
+                opacity: 0.9
+            });
+            const energy = new THREE.Mesh(geometry, material);
+            
+            energy.position.x = (Math.random() - 0.5) * 30;
+            energy.position.y = (Math.random() - 0.5) * 30;
+            energy.position.z = (Math.random() - 0.5) * 30;
+            
+            energy.userData = {
+                originalPosition: energy.position.clone(),
+                speed: Math.random() * 0.01 + 0.005,
+                amplitude: Math.random() * 4 + 2,
+                pulseSpeed: Math.random() * 0.03 + 0.02
+            };
+            
+            particles.push(energy);
+            scene.add(energy);
+        }
+
+        camera.position.z = 18;
+
+        // Animation loop with enhanced effects
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = Date.now() * 0.001;
+            
+            // Animate enhanced DNA helix particles
+            for (let i = 0; i < particleCount; i++) {
+                const particle = particles[i];
+                particle.position.y += particle.userData.speed;
+                particle.rotation.y += particle.userData.rotationSpeed;
+                
+                // Pulsing effect
+                const pulse = Math.sin(time * particle.userData.pulseSpeed + particle.userData.pulsePhase) * 0.1 + 1;
+                particle.scale.setScalar(pulse);
+                
+                // Color variation
+                const hue = (0.5 + Math.sin(time * 0.5 + i * 0.01) * 0.1) % 1;
+                particle.material.color.setHSL(hue, 0.9, 0.7);
+                
+                if (particle.position.y > 6) {
+                    particle.position.y = -6;
+                }
+            }
+            
+            // Animate enhanced medical molecules
+            for (let i = particleCount; i < particleCount + moleculeCount; i++) {
+                const molecule = particles[i];
+                const moleculeTime = time * molecule.userData.speed;
+                
+                molecule.position.x = molecule.userData.originalPosition.x + Math.sin(moleculeTime) * molecule.userData.amplitude;
+                molecule.position.y = molecule.userData.originalPosition.y + Math.cos(moleculeTime * 0.7) * molecule.userData.amplitude;
+                molecule.position.z = molecule.userData.originalPosition.z + Math.sin(moleculeTime * 0.5) * molecule.userData.amplitude;
+                
+                molecule.rotation.x += molecule.userData.rotationSpeed;
+                molecule.rotation.y += molecule.userData.rotationSpeed;
+                molecule.rotation.z += molecule.userData.rotationSpeed;
+                
+                // Size variation based on type
+                const sizePulse = Math.sin(moleculeTime * 2) * 0.1 + 1;
+                molecule.scale.setScalar(sizePulse);
+            }
+            
+            // Animate enhanced cells
+            for (let i = particleCount + moleculeCount; i < particleCount + moleculeCount + cellCount; i++) {
+                const cell = particles[i];
+                const cellTime = time * cell.userData.speed;
+                
+                cell.position.x = cell.userData.originalPosition.x + Math.sin(cellTime) * 3;
+                cell.position.y = cell.userData.originalPosition.y + Math.cos(cellTime * 0.8) * 3;
+                cell.position.z = cell.userData.originalPosition.z + Math.sin(cellTime * 0.6) * 3;
+                
+                cell.rotation.x += cell.userData.rotationSpeed;
+                cell.rotation.y += cell.userData.rotationSpeed;
+                cell.rotation.z += cell.userData.rotationSpeed;
+                
+                // Nucleus rotation
+                if (cell.userData.nucleus) {
+                    cell.userData.nucleus.rotation.x += cell.userData.rotationSpeed * 1.5;
+                    cell.userData.nucleus.rotation.y += cell.userData.rotationSpeed * 1.5;
+                }
+                
+                // Breathing effect
+                const breath = Math.sin(cellTime * 3) * 0.1 + 1;
+                cell.scale.setScalar(breath);
+            }
+            
+            // Animate energy particles
+            for (let i = particleCount + moleculeCount + cellCount; i < particles.length; i++) {
+                const energy = particles[i];
+                const energyTime = time * energy.userData.speed;
+                
+                energy.position.x = energy.userData.originalPosition.x + Math.sin(energyTime) * energy.userData.amplitude;
+                energy.position.y = energy.userData.originalPosition.y + Math.cos(energyTime * 0.8) * energy.userData.amplitude;
+                energy.position.z = energy.userData.originalPosition.z + Math.sin(energyTime * 0.6) * energy.userData.amplitude;
+                
+                // Intense pulsing
+                const energyPulse = Math.sin(energyTime * energy.userData.pulseSpeed) * 0.3 + 1;
+                energy.scale.setScalar(energyPulse);
+                
+                // Brightness variation
+                energy.material.opacity = Math.sin(energyTime * 2) * 0.3 + 0.7;
+            }
+            
+            renderer.render(scene, camera);
+        }
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Start animation
+        animate();
+    </script>
+</body>
+</html>
